@@ -28,10 +28,10 @@ public class User implements UserDetails {
     private Long id_user;
 
     @Column(nullable = false)
-    private String nom;
+    private String cin;
 
     @Column(nullable = false)
-    private String cin;
+    private String nom;
 
     @Column(nullable = false)
     private String prenom;
