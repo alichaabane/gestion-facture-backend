@@ -18,5 +18,4 @@ public class RegisterRequest {
     private  String role;
     private int telephone;
     private int age;
-    private String photoProfil;
 }

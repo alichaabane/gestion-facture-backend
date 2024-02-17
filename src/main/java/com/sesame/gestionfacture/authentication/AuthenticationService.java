@@ -11,8 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -31,7 +29,7 @@ public class AuthenticationService {
         newUser.setPassword(passwordEncoder.encode(request.getPassword()));
         newUser.setTelephone(request.getTelephone());
         newUser.setAge(request.getAge());
-        String roleUser ;
+        String roleUser = null;
 
         Role role ;
         if (request.getRole()==null) {
@@ -40,17 +38,11 @@ public class AuthenticationService {
         } else {
             roleUser = String.valueOf((request.getRole()));
 
-            switch (roleUser) {
-                case "ADMIN":
-                    role = Role.ADMIN;
-                    break;
-                case "SUPERADMIN":
-                    role = Role.SUPERADMIN;
-                    break;
-                default:
-                    role = Role.ADMIN;
-                    break;
-            }
+            role = switch (roleUser) {
+                case "ADMIN" -> Role.ADMIN;
+                case "SUPERADMIN" -> Role.SUPERADMIN;
+                default -> Role.ADMIN;
+            };
         }
 
         newUser.setRole(role);
@@ -74,7 +66,7 @@ public class AuthenticationService {
         );
         User UserLogged  ;
         try {
-            UserLogged = userRepository.findByEmail(request.getCin());
+            UserLogged = userRepository.findByCin(request.getCin());
         } catch (Throwable e) {
             throw new RuntimeException(e);
         }
@@ -84,7 +76,6 @@ public class AuthenticationService {
                 .user(UserLogged)
                 .token(jwtToken)
                 .build();
-
     }
 
 }

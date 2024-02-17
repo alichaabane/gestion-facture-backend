@@ -2,6 +2,7 @@ package com.sesame.gestionfacture.resource;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sesame.gestionfacture.authentication.RegisterRequest;
 import com.sesame.gestionfacture.entity.User;
 import com.sesame.gestionfacture.service.impl.FileStorageService;
 import com.sesame.gestionfacture.service.impl.UserService;
@@ -19,9 +20,6 @@ public class UserResource {
     @Autowired
     private  UserService userService;
 
-    @Autowired
-    private FileStorageService fileStorageService;
-
     @GetMapping("")
     public List<User> getAllUsers() {
 
@@ -38,28 +36,20 @@ public class UserResource {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> saveUser(@RequestParam(name = "user") String user,
-                                      @RequestParam(value = "photoProfil", required = false) MultipartFile photoProfil
-    ) throws JsonProcessingException, NoSuchFieldException {
-
-        User userToSave = new ObjectMapper().readValue(user, User.class);
-
-        if (photoProfil != null) {
-            userToSave.setPhotoProfil(fileStorageService.save(photoProfil, "users"));
+    public ResponseEntity<?> saveUser(@RequestBody RegisterRequest user) {
+        try {
+            User result = userService.saveUser(user);
+            if (result != null) {
+                return new ResponseEntity<>(result, HttpStatus.OK);
+            }
+            return new ResponseEntity<>("Problem with adding user", HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
-        User result = userService.saveUser(userToSave);
-        if (result != null) {
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }
-        return new ResponseEntity<>("problem with adding user", HttpStatus.OK);
     }
 
-
     @PutMapping(value = "/edit")
-    public ResponseEntity<?> updateUser(@RequestParam(name = "user") String user,
-                                     @RequestParam(value = "photoProfil", required = false) MultipartFile photoProfil
-    ) throws JsonProcessingException {
+    public ResponseEntity<?> updateUser(@RequestParam(name = "user") String user) throws JsonProcessingException {
 
         User newUser = new ObjectMapper().readValue(user, User.class);
 
@@ -74,10 +64,6 @@ public class UserResource {
 
         if (newUser.getPassword()!=null) {
             userToUpdate.setPassword(newUser.getPassword());
-        }
-
-        if (photoProfil != null) {
-            userToUpdate.setPhotoProfil(fileStorageService.save(photoProfil, "users"));
         }
 
         try {

@@ -51,9 +51,6 @@ public class User implements UserDetails {
     private String telephone;
 
     @Column
-    private String photoProfil;
-
-    @Column
     @Enumerated(EnumType.STRING)
     private Role role;
 

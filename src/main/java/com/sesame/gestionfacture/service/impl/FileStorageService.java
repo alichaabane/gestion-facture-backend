@@ -1,7 +1,6 @@
 package com.sesame.gestionfacture.service.impl;
 
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -12,23 +11,20 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @Service
 public class FileStorageService {
 
-    @Value("${filestoragePath}")
-    private String filestoragePath;
 
-    private final Map<String, Path> directories = new HashMap<>();
+    public Map<String, Path> directories = new HashMap<>();
 
     @PostConstruct
     public void init() {
-        directories.put("users", Paths.get(filestoragePath, "users"));
 
         directories.forEach((key, path) -> {
             try {
@@ -51,7 +47,7 @@ public class FileStorageService {
 
     public String save(MultipartFile file, String folder) {
         try {
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
             if (fileName.contains("..")) {
                 throw new NoSuchElementException("Invalid filename: " + fileName);
             }

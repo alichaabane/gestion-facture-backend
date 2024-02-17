@@ -1,7 +1,9 @@
 package com.sesame.gestionfacture.service.impl;
 
+import com.sesame.gestionfacture.authentication.RegisterRequest;
 import com.sesame.gestionfacture.entity.Role;
 import com.sesame.gestionfacture.entity.User;
+import com.sesame.gestionfacture.mapper.UserMapper;
 import com.sesame.gestionfacture.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,17 +21,19 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
-    public User saveUser(User user) throws NoSuchFieldException {
+    public User saveUser(RegisterRequest user) {
 
-        String roleUser ;
-        Role role ;
+        String roleUser = null;
+        Role role = null;
 
-        if (user.getRole()==null) {
+
+        if (user.getRole() == null) {
             role = Role.ADMIN;
 
         } else {
-            roleUser = String.valueOf((user.getRole()));
+            roleUser = user.getRole();
 
             switch (roleUser) {
                 case "ADMIN":
@@ -45,12 +49,12 @@ public class UserService {
                     break;
             }
         }
-        user.setRole(role);
+        user.setRole(role.toString());
 
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
 
-        return userRepository.save(user);
+        return userRepository.save(userMapper.toEntity(user));
     }
 
     public List<User> getAllUsers() {
