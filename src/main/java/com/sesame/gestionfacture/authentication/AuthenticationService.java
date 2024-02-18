@@ -3,8 +3,11 @@ package com.sesame.gestionfacture.authentication;
 
 import com.sesame.gestionfacture.config.JwtService;
 import com.sesame.gestionfacture.dto.LoginRequest;
+import com.sesame.gestionfacture.dto.RegisterRequest;
 import com.sesame.gestionfacture.entity.Role;
 import com.sesame.gestionfacture.entity.User;
+import com.sesame.gestionfacture.exception.UserAlreadyExistsException;
+import com.sesame.gestionfacture.mapper.UserMapper;
 import com.sesame.gestionfacture.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,6 +16,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,11 +30,12 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserMapper userMapper;
 
     public AuthenticationResponse register(User request) {
         // Check if the user already exists
         if (userRepository.findByCin(request.getCin()) != null) {
-            throw new RuntimeException("User with this CIN number already exists");
+            throw new UserAlreadyExistsException("User with this CIN number already exists");
         }
 
         User newUser = new User();
@@ -86,6 +91,14 @@ public class AuthenticationService {
             throw new BadCredentialsException("Invalid username or password", e);
         }
     }
+
+    public RegisterRequest getCurrentUser(Authentication authentication) {
+        if (authentication != null && authentication.getPrincipal() instanceof User user) {
+            return userMapper.toDto(user);
+        }
+        return  null;
+    }
+
 
 
 }
