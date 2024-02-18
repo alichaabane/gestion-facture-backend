@@ -21,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -59,6 +60,22 @@ public class UserService {
         return userRepository.save(userMapper.toEntity(user));
     }
 
+    public List<Integer> getUsersCountByMonth() {
+        List<Object[]> result = userRepository.countUsersByMonth();
+        Integer[] usersCount = new Integer[12];
+
+        // Initialize the array with zeros
+        Arrays.fill(usersCount, 0);
+
+        // Populate the array with the retrieved data
+        for (Object[] row : result) {
+            int month = (int) row[0];
+            int count = ((Number) row[1]).intValue();
+            usersCount[month - 1] = count;
+        }
+
+        return Arrays.asList(usersCount);
+    }
     public ResponseEntity<?> changeUserState(Long id) {
         User user = userRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         user.setConfirmed(!user.isConfirmed());

@@ -97,6 +97,12 @@ public class UserResource {
         }
     }
 
+    @GetMapping("/count-by-month")
+    public ResponseEntity<List<Integer>> getUsersCountByMonth() {
+        List<Integer> usersCountByMonth = userService.getUsersCountByMonth();
+        return ResponseEntity.ok(usersCountByMonth);
+    }
+
 //    @GetMapping(path = "/image/{fileName}", produces = IMAGE_JPEG_VALUE)
 //    public byte[] getProfileImage( @PathVariable("fileName") String fileName) throws IOException {
 //        return Files.readAllBytes(Paths.get("uploads/users" +FORWARD_SLASH + fileName));
