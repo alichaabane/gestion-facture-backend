@@ -2,10 +2,10 @@ package com.sesame.gestionfacture.entity;
 
 public enum Role {
 
-    SUPERADMIN{
+    UTILISATEUR{
         @Override
         public String toString() {
-            return "SUPERADMIN";
+            return "UTILISATEUR";
         }
     },
     ADMIN

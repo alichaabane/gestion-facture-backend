@@ -2,12 +2,19 @@ package com.sesame.gestionfacture.authentication;
 
 
 import com.sesame.gestionfacture.config.JwtService;
+import com.sesame.gestionfacture.dto.LoginRequest;
 import com.sesame.gestionfacture.entity.Role;
 import com.sesame.gestionfacture.entity.User;
 import com.sesame.gestionfacture.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +28,11 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(User request) {
+        // Check if the user already exists
+        if (userRepository.findByCin(request.getCin()) != null) {
+            throw new RuntimeException("User with this CIN number already exists");
+        }
+
         User newUser = new User();
         newUser.setNom(request.getNom());
         newUser.setPrenom(request.getPrenom());
@@ -28,55 +40,53 @@ public class AuthenticationService {
         newUser.setEmail(request.getEmail());
         newUser.setPassword(passwordEncoder.encode(request.getPassword()));
         newUser.setTelephone(request.getTelephone());
+        newUser.setConfirmed(false);
         newUser.setAge(request.getAge());
-        String roleUser = null;
 
-        Role role ;
-        if (request.getRole()==null) {
-            role = Role.ADMIN;
-
-        } else {
-            roleUser = String.valueOf((request.getRole()));
-
-            role = switch (roleUser) {
-                case "ADMIN" -> Role.ADMIN;
-                case "SUPERADMIN" -> Role.SUPERADMIN;
-                default -> Role.ADMIN;
-            };
-        }
-
+        // Set role based on the provided role or default to UTILISATEUR
+        Role role = (request.getRole() == null) ? Role.UTILISATEUR : request.getRole();
         newUser.setRole(role);
-        userRepository.save(newUser);
 
-        User savedUser= userRepository.save(newUser);
-        var jwtToken=jwtService.generateToken(newUser);
+        User savedUser = userRepository.save(newUser);
+        String jwtToken = jwtService.generateToken(newUser);
+
         return AuthenticationResponse.builder()
                 .user(savedUser)
                 .token(jwtToken)
                 .build();
     }
 
+
     public AuthenticationResponse login(LoginRequest request) {
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getCin(),
-                        request.getPassword()
-                )
-        );
-        User UserLogged  ;
         try {
-            UserLogged = userRepository.findByCin(request.getCin());
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
-        }
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getCin(),
+                            request.getPassword()
+                    )
+            );
 
-        var jwtToken = jwtService.generateToken(UserLogged);
-        return AuthenticationResponse.builder()
-                .user(UserLogged)
-                .token(jwtToken)
-                .build();
+            User userLogged = userRepository.findByCin(request.getCin());
+
+            if (userLogged == null) {
+                throw new UsernameNotFoundException("User not found");
+            }
+
+            if (!userLogged.isConfirmed() && !userLogged.getRole().equals(Role.ADMIN)) {
+                throw new AccessDeniedException("User not confirmed");
+            }
+
+            String jwtToken = jwtService.generateToken(userLogged);
+            return AuthenticationResponse.builder()
+                    .user(userLogged)
+                    .token(jwtToken)
+                    .build();
+        } catch (AuthenticationException e) {
+            throw new BadCredentialsException("Invalid username or password", e);
+        }
     }
+
 
 }
 

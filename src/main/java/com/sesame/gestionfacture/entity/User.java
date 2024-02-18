@@ -33,6 +33,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String nom;
 
+
     @Column(nullable = false)
     private String prenom;
 
@@ -49,6 +50,9 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private String telephone;
+
+    @Column(nullable = false)
+    private boolean confirmed;
 
     @Column
     @Enumerated(EnumType.STRING)

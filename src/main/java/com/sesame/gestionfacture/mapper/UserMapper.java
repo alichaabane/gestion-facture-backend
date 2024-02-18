@@ -1,6 +1,6 @@
 package com.sesame.gestionfacture.mapper;
 
-import com.sesame.gestionfacture.authentication.RegisterRequest;
+import com.sesame.gestionfacture.dto.RegisterRequest;
 import com.sesame.gestionfacture.entity.User;
 import org.mapstruct.Mapper;
 

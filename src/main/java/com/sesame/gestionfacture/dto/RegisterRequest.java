@@ -1,4 +1,4 @@
-package com.sesame.gestionfacture.authentication;
+package com.sesame.gestionfacture.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,12 +10,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterRequest {
+    private Long id;
     private String nom;
     private String prenom;
     private String cin;
     private String email;
     private String password;
-    private  String role;
-    private int telephone;
+    private String role;
+    private String telephone;
+    private boolean confirmed;
     private int age;
 }

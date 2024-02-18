@@ -1,30 +1,48 @@
 package com.sesame.gestionfacture.resource;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sesame.gestionfacture.authentication.RegisterRequest;
+import com.sesame.gestionfacture.dto.PageRequestData;
+import com.sesame.gestionfacture.dto.RegisterRequest;
+import com.sesame.gestionfacture.entity.Role;
 import com.sesame.gestionfacture.entity.User;
-import com.sesame.gestionfacture.service.impl.FileStorageService;
 import com.sesame.gestionfacture.service.impl.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserResource {
 
-    @Autowired
-    private  UserService userService;
+    private  final UserService userService;
 
-    @GetMapping("")
+    public UserResource(UserService userService) {
+        this.userService = userService;
+    }
+
+    @GetMapping("/all")
     public List<User> getAllUsers() {
-
         return userService.getAllUsers();
     }
+
+    @GetMapping("/paginated")
+    public ResponseEntity<PageRequestData<?>> getAllUsersPaginated(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        PageRequestData<RegisterRequest> users = userService.getAllUsersPaginated(pageRequest);
+        if(users != null){
+            return new ResponseEntity<>(users, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable Long id) {
@@ -33,6 +51,13 @@ public class UserResource {
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
         return new ResponseEntity<>("this user doesn't exist", HttpStatus.OK);
+    }
+
+    @PutMapping("/active/{id}")
+    public ResponseEntity<?> toggleVisibleState(@PathVariable Long id) {
+        ResponseEntity<?> responseEntity = userService.changeUserState(id);
+        // Return a 404 response if changeImageVisibleState returns null
+        return Objects.requireNonNullElseGet(responseEntity, () -> ResponseEntity.notFound().build()); // Return the response from changeImageVisibleState
     }
 
     @PostMapping("/add")
@@ -48,29 +73,26 @@ public class UserResource {
         }
     }
 
+
     @PutMapping(value = "/edit")
-    public ResponseEntity<?> updateUser(@RequestParam(name = "user") String user) throws JsonProcessingException {
-
-        User newUser = new ObjectMapper().readValue(user, User.class);
-
-        User userToUpdate = userService.getUserByID(newUser.getId_user());
-        userToUpdate.setCin(newUser.getCin());
-        userToUpdate.setNom(newUser.getNom());
-        userToUpdate.setPrenom(newUser.getPrenom());
-        userToUpdate.setEmail(newUser.getEmail());
-        userToUpdate.setAge(newUser.getAge());
-        userToUpdate.setTelephone(newUser.getTelephone());
-        userToUpdate.setRole(newUser.getRole());
-
-        if (newUser.getPassword()!=null) {
-            userToUpdate.setPassword(newUser.getPassword());
-        }
-
+    public ResponseEntity<?> updateUser(@RequestBody RegisterRequest user) throws JsonProcessingException {
         try {
+            User userToUpdate = userService.getUserByID(user.getId());
+            userToUpdate.setCin(user.getCin());
+            userToUpdate.setNom(user.getNom());
+            userToUpdate.setPrenom(user.getPrenom());
+            userToUpdate.setEmail(user.getEmail());
+            userToUpdate.setAge(user.getAge());
+            userToUpdate.setTelephone(user.getTelephone());
+            userToUpdate.setRole(Role.valueOf(user.getRole()));
+
+            if (user.getPassword() != null) {
+                userToUpdate.setPassword(user.getPassword());
+            }
+
             User result = userService.updateUser(userToUpdate);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
-
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

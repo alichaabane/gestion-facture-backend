@@ -1,4 +1,4 @@
-package com.sesame.gestionfacture.authentication;
+package com.sesame.gestionfacture.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

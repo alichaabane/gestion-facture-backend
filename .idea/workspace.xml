@@ -4,15 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="494afcd2-793a-4ff3-a90e-bdc9e21ea365" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/mapper/UserMapper.java" afterDir="false" />
+    <list default="true" id="494afcd2-793a-4ff3-a90e-bdc9e21ea365" name="Changes" comment="Fix user implementation">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/dto/PageRequestData.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/authentication/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/authentication/AuthenticationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/authentication/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/authentication/AuthenticationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/authentication/RegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/authentication/RegisterRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/authentication/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/dto/LoginRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/authentication/RegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/dto/RegisterRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/config/SecurityConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/config/SecurityConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/entity/Role.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/mapper/UserMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/UserResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/UserResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/FileStorageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/FileStorageService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
@@ -33,7 +36,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="feature/khalil" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -72,7 +75,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.GestionFactureApplication.executor": "Run",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feature/wassim",
+    "git-widget-placeholder": "develop",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/INGTA 4A/PDS/gestion-facture-backend",
@@ -87,6 +90,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.sesame.gestionfacture.dto" />
       <recent name="com.sesame.gestionfacture.mapper" />
     </key>
   </component>
@@ -132,6 +136,7 @@
       <workItem from="1707227982853" duration="222000" />
       <workItem from="1707668663676" duration="4839000" />
       <workItem from="1707770429592" duration="713000" />
+      <workItem from="1708246955450" duration="5100000" />
     </task>
     <task id="LOCAL-00001" summary="CRUD Produits et Fournisseurs">
       <option name="closed" value="true" />
@@ -154,6 +159,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="CRUD Produits et Fournisseurs" />

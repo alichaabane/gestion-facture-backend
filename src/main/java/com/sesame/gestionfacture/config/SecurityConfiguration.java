@@ -28,7 +28,7 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .requestMatchers("/api/**")
                 .permitAll()
-//                .requestMatchers("/api/user/**").hasAuthority("SUPERADMIN")
+//                .requestMatchers("/api/user/**").hasAuthority("UTILISATEUR")
 //              .anyRequest()
 //              .authenticated()
                 .and()
