@@ -77,7 +77,7 @@ public class UserResource {
     @PutMapping(value = "/edit")
     public ResponseEntity<?> updateUser(@RequestBody RegisterRequest user) throws JsonProcessingException {
         try {
-            User userToUpdate = userService.getUserByID(user.getId());
+            User userToUpdate = userService.getUserByID(user.getId_user());
             userToUpdate.setCin(user.getCin());
             userToUpdate.setNom(user.getNom());
             userToUpdate.setPrenom(user.getPrenom());
@@ -93,7 +93,7 @@ public class UserResource {
             User result = userService.updateUser(userToUpdate);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -101,6 +101,12 @@ public class UserResource {
     public ResponseEntity<List<Integer>> getUsersCountByMonth() {
         List<Integer> usersCountByMonth = userService.getUsersCountByMonth();
         return ResponseEntity.ok(usersCountByMonth);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        userService.deleteUserById(id);
+        return ResponseEntity.noContent().build();
     }
 
 //    @GetMapping(path = "/image/{fileName}", produces = IMAGE_JPEG_VALUE)
