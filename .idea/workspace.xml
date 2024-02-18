@@ -4,11 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="494afcd2-793a-4ff3-a90e-bdc9e21ea365" name="Changes" comment="implement service number of subscribed users by month">
+    <list default="true" id="494afcd2-793a-4ff3-a90e-bdc9e21ea365" name="Changes" comment="Fix user implementation v2">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/FactureResource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/FactureService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/FactureServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/logo.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/dto/RegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/dto/RegisterRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/initialize/AppInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/initialize/AppInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/UserResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/UserResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,13 +30,10 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="feature/wassim" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="c5aa19d8-7fdd-4fce-9d2f-23f23c448a21" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -42,6 +42,7 @@
     <option name="generalSettings">
       <MavenGeneralSettings>
         <option name="mavenHome" value="Use Maven wrapper" />
+        <option name="useMavenConfig" value="true" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -69,17 +70,21 @@
     "git-widget-placeholder": "develop",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/INGTA 4A/PDS/gestion-facture-backend",
+    "last_opened_file_path": "C:/Users/SWS/Desktop/gestion-facture-backend",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
     "spring.configuration.checksum": "7d6be259a006de13dd0a7fd51084aba4",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\SWS\Desktop\gestion-facture-backend\src\main\resources" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.sesame.gestionfacture.dto" />
       <recent name="com.sesame.gestionfacture.mapper" />
@@ -128,7 +133,7 @@
       <workItem from="1707668663676" duration="4839000" />
       <workItem from="1707770429592" duration="713000" />
       <workItem from="1708246955450" duration="5100000" />
-      <workItem from="1708282873380" duration="3807000" />
+      <workItem from="1708283976445" duration="8087000" />
     </task>
     <task id="LOCAL-00001" summary="CRUD Produits et Fournisseurs">
       <option name="closed" value="true" />
@@ -157,19 +162,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="origin/develop" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
