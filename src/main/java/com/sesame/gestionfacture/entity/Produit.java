@@ -22,4 +22,9 @@ public class Produit {
     @ManyToOne
     @JoinColumn(name = "fournisseur_id")
     private Fournisseur fournisseur;
+
+    @ManyToOne()
+    @JoinColumn(name="facture_id")
+    private Facture facture;
+
 }

@@ -12,4 +12,5 @@ public interface ProduitService {
     boolean deleteProduit(Long productId);
     ProduitDTO updateProduit(ProduitDTO newProduitDTO);
     ProduitDTO getProductById(Long productId);
+    List<ProduitDTO> getProduitsByFacture(Long factureId);
 }

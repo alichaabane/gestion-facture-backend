@@ -78,4 +78,9 @@ public class ProduitServiceImpl implements ProduitService {
         Produit produit = produitRepository.findById(productId).orElse(null);
         return (produit != null) ? produitMapper.toDto(produit) : null;
     }
+
+    @Override
+    public List<ProduitDTO> getProduitsByFacture(Long factureId) {
+        return produitRepository.findByFactureId(factureId).stream().map(produitMapper::toDto).collect(Collectors.toList());
+    }
 }

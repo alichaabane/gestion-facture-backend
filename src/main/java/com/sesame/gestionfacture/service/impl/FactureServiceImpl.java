@@ -1,8 +1,13 @@
 package com.sesame.gestionfacture.service.impl;
 
-import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.FontSelector;
 import com.itextpdf.text.pdf.PdfPCell;
+import com.sesame.gestionfacture.dto.FactureDTO;
+import com.sesame.gestionfacture.dto.ProduitDTO;
+import com.sesame.gestionfacture.entity.Facture;
+import com.sesame.gestionfacture.mapper.FactureMapper;
+import com.sesame.gestionfacture.mapper.ProduitMapper;
+import com.sesame.gestionfacture.repository.FactureRepository;
 import com.sesame.gestionfacture.service.FactureService;
 
 import java.io.File;
@@ -10,6 +15,10 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -21,11 +30,55 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.sesame.gestionfacture.service.ProduitService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FactureServiceImpl implements FactureService {
-    public void createPdf (String pdfFilename){
+
+    private List<ProduitDTO> produitDTOS;
+
+    @Autowired
+    private FactureRepository factureRepository;
+
+    @Autowired
+    private FactureMapper factureMapper;
+
+    @Autowired
+    private ProduitMapper produitMapper;
+
+    @Autowired
+    private ProduitService produitService;
+
+    @Override
+    public List<FactureDTO> getAllFactures() {
+        List<Facture> factures = factureRepository.findAll();
+        return factures.stream()
+                .map(factureMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void addFacture(FactureDTO factureDTO) {
+        Facture facture = factureMapper.toEntity(factureDTO);
+        this.produitDTOS = facture.getListeProduits().stream().map(produitMapper::toDto).collect(Collectors.toList());
+        Facture factureSaved = factureRepository.save(facture);
+        List<ProduitDTO> produitForFacture = produitService.getProduitsByFacture(factureSaved.getId());
+        createPdf(factureSaved.getNomClient()+" "+factureSaved.getPrenomClient()+".pdf",produitForFacture,factureDTO);
+    }
+
+    @Override
+    public boolean deleteFactureById(Long id) {
+        if(factureRepository.existsById(id)){
+            factureRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+
+    public void createPdf (String pdfFilename,List<ProduitDTO> listeProduits,FactureDTO factureDTO){
         try {
 
             OutputStream file = new FileOutputStream(new File(pdfFilename));
@@ -62,12 +115,12 @@ public class FactureServiceImpl implements FactureService {
             FontSelector fs = new FontSelector();
             Font font = FontFactory.getFont(FontFactory.TIMES_ROMAN, 13, Font.BOLD);
             fs.addFont(font);
-            Phrase bill = fs.process("Bill To"); // customer information
-            Paragraph name = new Paragraph("Mr.Venkateswara Rao");
+            Phrase bill = fs.process("Facturer à"); // customer information
+            Paragraph name = new Paragraph(factureDTO.getNomClient()+" "+factureDTO.getPrenomClient());
             name.setIndentationLeft(20);
-            Paragraph contact = new Paragraph("9652886877");
+            Paragraph contact = new Paragraph(factureDTO.getNumTelClient());
             contact.setIndentationLeft(20);
-            Paragraph address = new Paragraph("Kuchipudi,Movva");
+            Paragraph address = new Paragraph("Bardo, Tunis");
             address.setIndentationLeft(20);
 
             PdfPTable billTable = new PdfPTable(6); //one page contains 15 records
@@ -75,33 +128,26 @@ public class FactureServiceImpl implements FactureService {
             billTable.setWidths(new float[] { 1, 2,5,2,1,2 });
             billTable.setSpacingBefore(30.0f);
             billTable.addCell(getBillHeaderCell("Index"));
-            billTable.addCell(getBillHeaderCell("Item"));
+            billTable.addCell(getBillHeaderCell("Produit"));
             billTable.addCell(getBillHeaderCell("Description"));
-            billTable.addCell(getBillHeaderCell("Unit Price"));
-            billTable.addCell(getBillHeaderCell("Qty"));
-            billTable.addCell(getBillHeaderCell("Amount"));
+            billTable.addCell(getBillHeaderCell("Prix unitaire"));
+            billTable.addCell(getBillHeaderCell("Qté"));
+            billTable.addCell(getBillHeaderCell("Montant"));
 
-            billTable.addCell(getBillRowCell("1"));
-            billTable.addCell(getBillRowCell("Mobile"));
-            billTable.addCell(getBillRowCell("Nokia Lumia 610 \n IMI:WQ361989213 "));
-            billTable.addCell(getBillRowCell("12000.0"));
-            billTable.addCell(getBillRowCell("1"));
-            billTable.addCell(getBillRowCell("12000.0"));
+            //Looping through all products to print them in the PDF
+            AtomicInteger i= new AtomicInteger();
+            AtomicReference<Double> totalPrix = new AtomicReference<>((double) 0);
+            listeProduits.forEach(produitDTO -> {
+                totalPrix.updateAndGet(v -> v + produitDTO.getPrix());
+                i.getAndIncrement();
+                billTable.addCell(getBillRowCell(String.valueOf(i)));
+                billTable.addCell(getBillRowCell(produitDTO.getNom()));
+                billTable.addCell(getBillRowCell(produitDTO.getDescription()));
+                billTable.addCell(getBillRowCell(String.valueOf(produitDTO.getPrix())));
+                billTable.addCell(getBillRowCell("1"));
+                billTable.addCell(getBillRowCell(String.valueOf(produitDTO.getPrix())));
+            });
 
-            billTable.addCell(getBillRowCell("2"));
-            billTable.addCell(getBillRowCell("Accessories"));
-            billTable.addCell(getBillRowCell("Nokia Lumia 610 Panel \n Serial:TIN3720 "));
-            billTable.addCell(getBillRowCell("200.0"));
-            billTable.addCell(getBillRowCell("1"));
-            billTable.addCell(getBillRowCell("200.0"));
-
-
-            billTable.addCell(getBillRowCell("3"));
-            billTable.addCell(getBillRowCell("Other"));
-            billTable.addCell(getBillRowCell("16Gb Memorycard \n Serial:UR8531 "));
-            billTable.addCell(getBillRowCell("420.0"));
-            billTable.addCell(getBillRowCell("1"));
-            billTable.addCell(getBillRowCell("420.0"));
 
             billTable.addCell(getBillRowCell(" "));
             billTable.addCell(getBillRowCell(""));
@@ -190,9 +236,9 @@ public class FactureServiceImpl implements FactureService {
             PdfPTable validity = new PdfPTable(1);
             validity.setWidthPercentage(100);
             validity.addCell(getValidityCell(" "));
-            validity.addCell(getValidityCell("Warranty"));
-            validity.addCell(getValidityCell(" * Products purchased comes with 1 year national warranty \n   (if applicable)"));
-            validity.addCell(getValidityCell(" * Warranty should be claimed only from the respective manufactures"));
+            validity.addCell(getValidityCell("Garantie"));
+            validity.addCell(getValidityCell(" * Les produits achetés sont accompagnés d'une garantie nationale d'un an \n   (le cas échéant)"));
+            validity.addCell(getValidityCell(" * La garantie ne doit être réclamée qu'auprès du fabricant respectif"));
             PdfPCell summaryL = new PdfPCell (validity);
             summaryL.setColspan (3);
             summaryL.setPadding (1.0f);
@@ -200,14 +246,27 @@ public class FactureServiceImpl implements FactureService {
 
             PdfPTable accounts = new PdfPTable(2);
             accounts.setWidthPercentage(100);
-            accounts.addCell(getAccountsCell("Subtotal"));
-            accounts.addCell(getAccountsCellR("12620.00"));
-            accounts.addCell(getAccountsCell("Discount (10%)"));
-            accounts.addCell(getAccountsCellR("1262.00"));
-            accounts.addCell(getAccountsCell("Tax(2.5%)"));
-            accounts.addCell(getAccountsCellR("315.55"));
+            accounts.addCell(getAccountsCell("subtotal"));
+            accounts.addCell(getAccountsCellR(String.valueOf(totalPrix)));
+
+            double promotion = totalPrix.get() * 0.1;
+            String promotionString = String.format("%.2f", promotion);
+
+
+            accounts.addCell(getAccountsCell("Promotion (10%)"));
+            accounts.addCell(getAccountsCellR(promotionString));
+            accounts.addCell(getAccountsCell("Taxe(2.5%)"));
+
+            double taxe = totalPrix.get() * 0.025;
+            String taxetString = String.format("%.2f", taxe);
+
+            accounts.addCell(getAccountsCellR(taxetString));
             accounts.addCell(getAccountsCell("Total"));
-            accounts.addCell(getAccountsCellR("11673.55"));
+
+            double newTotal = (totalPrix.get() - promotion) + taxe;
+            String newTotalString = String.format("%.2f", newTotal);
+
+            accounts.addCell(getAccountsCellR(newTotalString));
             PdfPCell summaryR = new PdfPCell (accounts);
             summaryR.setColspan (3);
             billTable.addCell(summaryR);
@@ -215,10 +274,10 @@ public class FactureServiceImpl implements FactureService {
             PdfPTable describer = new PdfPTable(1);
             describer.setWidthPercentage(100);
             describer.addCell(getdescCell(" "));
-            describer.addCell(getdescCell("Goods once sold will not be taken back or exchanged || Subject to product justification || Product damage no one responsible || "
-                    + " Service only at concarned authorized service centers"));
+            describer.addCell(getdescCell("Les marchandises une fois vendues ne seront ni reprises ni échangées || Sous réserve de justification du produit || Dommages au produit, personne n'est responsable || "
+                    + " Service uniquement dans les centres de service agréés concernés"));
 
-            document.open();//PDF document opened........
+            document.open();
 
             document.add(image);
             document.add(irhTable);
@@ -239,6 +298,8 @@ public class FactureServiceImpl implements FactureService {
             e.printStackTrace();
         }
     }
+
+
 
     public static void setHeader() {
 

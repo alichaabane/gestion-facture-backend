@@ -11,4 +11,7 @@ import java.util.List;
 public interface ProduitRepository extends JpaRepository<Produit, Long>, JpaSpecificationExecutor<Produit> {
 
      List<Produit> findByFournisseurId(Long fournisseurId);
+
+     List<Produit> findByFactureId(Long factureId);
+
 }
