@@ -13,4 +13,5 @@ public class ProduitDTO {
     private String description;
     private int quantiteEnStock;
     private Long fournisseurId;
+    private String fournisseurNom;
 }

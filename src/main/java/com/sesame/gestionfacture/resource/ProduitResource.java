@@ -1,8 +1,10 @@
 package com.sesame.gestionfacture.resource;
 
+import com.sesame.gestionfacture.dto.PageRequestData;
 import com.sesame.gestionfacture.dto.ProduitDTO;
 import com.sesame.gestionfacture.service.ProduitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,14 +15,33 @@ import java.util.List;
 @RequestMapping("/api/produits")
 public class ProduitResource {
 
-    @Autowired
-    private ProduitService produitService;
+
+    private final ProduitService produitService;
+
+    public ProduitResource(ProduitService produitService) {
+        this.produitService = produitService;
+    }
 
     @GetMapping
     public ResponseEntity<List<ProduitDTO>> getAllProduits() {
         List<ProduitDTO> produits = produitService.getAllProduits();
         return new ResponseEntity<>(produits, HttpStatus.OK);
     }
+
+    @GetMapping("/paginated")
+    public ResponseEntity<PageRequestData<?>> getAllProduitsPaginated(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        PageRequestData<ProduitDTO> produits = produitService.getAllProduitsPaginated(pageRequest);
+        if(produits != null){
+            return new ResponseEntity<>(produits, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
 
     @GetMapping("/fournisseur/{fournisseurId}")
     public ResponseEntity<List<ProduitDTO>> getProduitsByFournisseur(@PathVariable Long fournisseurId) {

@@ -1,8 +1,11 @@
 package com.sesame.gestionfacture.resource;
 
 import com.sesame.gestionfacture.dto.FournisseurDTO;
+import com.sesame.gestionfacture.dto.PageRequestData;
+import com.sesame.gestionfacture.dto.ProduitDTO;
 import com.sesame.gestionfacture.service.FournisseurService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +23,20 @@ public class FournisseurResource {
     public ResponseEntity<List<FournisseurDTO>> getAllFournisseurs() {
         List<FournisseurDTO> fournisseurs = fournisseurService.getAllFournisseurs();
         return new ResponseEntity<>(fournisseurs, HttpStatus.OK);
+    }
+
+    @GetMapping("/paginated")
+    public ResponseEntity<PageRequestData<?>> getAllFournisseursPaginated(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        PageRequestData<FournisseurDTO> fournisseurs = fournisseurService.getAllFournisseursPaginated(pageRequest);
+        if(fournisseurs != null){
+            return new ResponseEntity<>(fournisseurs, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping

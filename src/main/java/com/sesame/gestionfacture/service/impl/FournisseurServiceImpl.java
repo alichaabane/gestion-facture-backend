@@ -1,11 +1,16 @@
 package com.sesame.gestionfacture.service.impl;
 
 import com.sesame.gestionfacture.dto.FournisseurDTO;
+import com.sesame.gestionfacture.dto.PageRequestData;
 import com.sesame.gestionfacture.entity.Fournisseur;
 import com.sesame.gestionfacture.mapper.FournisseurMapper;
 import com.sesame.gestionfacture.repository.FournisseurRepository;
 import com.sesame.gestionfacture.service.FournisseurService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +18,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class FournisseurServiceImpl implements FournisseurService {
+
+    private final Logger logger = LoggerFactory.getLogger(FournisseurServiceImpl.class);
 
     @Autowired
     private FournisseurRepository fournisseurRepository;
@@ -60,5 +67,18 @@ public class FournisseurServiceImpl implements FournisseurService {
     public FournisseurDTO getFournisseurById(Long fournisseurId) {
         Fournisseur fournisseur = fournisseurRepository.findById(fournisseurId).orElse(null);
         return (fournisseur != null) ? fournisseurMapper.toDto(fournisseur) : null;
+    }
+
+    @Override
+    public PageRequestData<FournisseurDTO> getAllFournisseursPaginated(PageRequest pageRequest) {
+        Page<Fournisseur> fournisseurPage = fournisseurRepository.findAll(pageRequest);
+        PageRequestData<FournisseurDTO> customPageResponse = new PageRequestData<>();
+        customPageResponse.setContent(fournisseurPage.map(fournisseurMapper::toDto).getContent());
+        customPageResponse.setTotalPages(fournisseurPage.getTotalPages());
+        customPageResponse.setTotalElements(fournisseurPage.getTotalElements());
+        customPageResponse.setNumber(fournisseurPage.getNumber());
+        customPageResponse.setSize(fournisseurPage.getSize());
+        logger.info("Fetching All fournisseurs of Page N° " + pageRequest.getPageNumber());
+        return customPageResponse;
     }
 }
