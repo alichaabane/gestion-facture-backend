@@ -124,6 +124,11 @@ public class ProduitServiceImpl implements ProduitService {
     }
 
     @Override
+    public int countProduits() {
+        return (int) produitRepository.count();
+    }
+
+    @Override
     public PageRequestData<ProduitDTO> getAllProduitsPaginated(PageRequest pageRequest) {
         Page<Produit> produitPage = produitRepository.findAll(pageRequest);
         PageRequestData<ProduitDTO> customPageResponse = new PageRequestData<>();

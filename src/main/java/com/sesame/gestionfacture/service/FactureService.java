@@ -10,6 +10,7 @@ public interface FactureService {
     List<FactureDTO> getAllFactures();
     void addFacture(FactureDTO factureDTO);
     boolean deleteFactureById(Long id);
+    int countFactures();
     void createPdf(String fileName,List<ProduitDTO> listeProduits,FactureDTO factureDTO);
 
 

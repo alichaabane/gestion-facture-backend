@@ -77,6 +77,11 @@ public class FactureServiceImpl implements FactureService {
         return false;
     }
 
+    @Override
+    public int countFactures() {
+        return (int) factureRepository.count();
+    }
+
 
     public void createPdf (String pdfFilename,List<ProduitDTO> listeProduits,FactureDTO factureDTO){
         try {

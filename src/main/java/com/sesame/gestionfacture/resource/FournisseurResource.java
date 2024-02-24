@@ -25,6 +25,11 @@ public class FournisseurResource {
         return new ResponseEntity<>(fournisseurs, HttpStatus.OK);
     }
 
+    @GetMapping("/count")
+    public int getTotalFournisseurs() {
+        return fournisseurService.countFournisseurs();
+    }
+
     @GetMapping("/paginated")
     public ResponseEntity<PageRequestData<?>> getAllFournisseursPaginated(
             @RequestParam(defaultValue = "0") int page,

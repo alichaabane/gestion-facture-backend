@@ -64,6 +64,11 @@ public class ProduitResource {
         }
     }
 
+    @GetMapping("/count")
+    public int getTotalProduits() {
+        return produitService.countProduits();
+    }
+
     @PutMapping("/{productId}")
     public ResponseEntity<ProduitDTO> updateProduit(@PathVariable Long productId, @RequestBody ProduitDTO newProduitDTO) {
         newProduitDTO.setId(productId);

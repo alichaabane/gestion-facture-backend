@@ -37,6 +37,11 @@ public class FactureResource {
         }
     }
 
+    @GetMapping("/count")
+    public int getTotalFactures() {
+        return factureService.countFactures();
+    }
+
 /*
     @PostMapping("/test")
     public void generatePdfFileForFacture(){

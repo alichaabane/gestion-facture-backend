@@ -70,6 +70,11 @@ public class FournisseurServiceImpl implements FournisseurService {
     }
 
     @Override
+    public int countFournisseurs() {
+        return (int) fournisseurRepository.count();
+    }
+
+    @Override
     public PageRequestData<FournisseurDTO> getAllFournisseursPaginated(PageRequest pageRequest) {
         Page<Fournisseur> fournisseurPage = fournisseurRepository.findAll(pageRequest);
         PageRequestData<FournisseurDTO> customPageResponse = new PageRequestData<>();

@@ -60,6 +60,10 @@ public class UserService {
         return userRepository.save(userMapper.toEntity(user));
     }
 
+    public int countUsers() {
+        return (int) userRepository.count();
+    }
+
     public List<Integer> getUsersCountByMonth() {
         List<Object[]> result = userRepository.countUsersByMonth();
         Integer[] usersCount = new Integer[12];
@@ -100,6 +104,7 @@ public class UserService {
 
         this.userRepository.deleteById(id);
     }
+
 
     public PageRequestData<RegisterRequest> getAllUsersPaginated(PageRequest pageRequest) {
         Page<User> userPage = userRepository.findAll(pageRequest);

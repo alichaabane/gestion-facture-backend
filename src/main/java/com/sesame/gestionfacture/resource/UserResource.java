@@ -29,6 +29,11 @@ public class UserResource {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/count")
+    public int getTotalUsers() {
+        return userService.countUsers();
+    }
+
     @GetMapping("/paginated")
     public ResponseEntity<PageRequestData<?>> getAllUsersPaginated(
             @RequestParam(defaultValue = "0") int page,

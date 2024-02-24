@@ -14,5 +14,7 @@ public interface FournisseurService {
     FournisseurDTO updateFournisseur(FournisseurDTO newFournisseurDTO);
     FournisseurDTO getFournisseurById(Long fournisseurId);
 
+    int countFournisseurs();
+
     PageRequestData<FournisseurDTO> getAllFournisseursPaginated(PageRequest pageRequest);
 }

@@ -16,5 +16,7 @@ public interface ProduitService {
     ProduitDTO updateProduit(ProduitDTO newProduitDTO);
     ProduitDTO getProductById(Long productId);
     PageRequestData<ProduitDTO> getAllProduitsPaginated(PageRequest pageRequest);
+    int countProduits();
+
     List<ProduitDTO> getProduitsByFacture(Long factureId);
 }
