@@ -5,10 +5,13 @@ import com.sesame.gestionfacture.entity.Produit;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class FactureDTO {
 
@@ -18,15 +21,5 @@ public class FactureDTO {
     private String prenomClient;
     private String numTelClient;
     private List<Produit> listeProduits;
-
-    @JsonCreator
-    public FactureDTO(Long id, String createdAt, String nomClient, String prenomClient, String numTelClient, List<Produit> listeProduits) {
-        this.id = id;
-        this.createdAt = createdAt;
-        this.nomClient = nomClient;
-        this.prenomClient = prenomClient;
-        this.numTelClient = numTelClient;
-        this.listeProduits = listeProduits;
-    }
 
 }

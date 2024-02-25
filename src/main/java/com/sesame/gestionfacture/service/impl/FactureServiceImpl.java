@@ -3,6 +3,7 @@ package com.sesame.gestionfacture.service.impl;
 import com.itextpdf.text.pdf.FontSelector;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.sesame.gestionfacture.dto.FactureDTO;
+import com.sesame.gestionfacture.dto.PageRequestData;
 import com.sesame.gestionfacture.dto.ProduitDTO;
 import com.sesame.gestionfacture.entity.Facture;
 import com.sesame.gestionfacture.mapper.FactureMapper;
@@ -31,11 +32,17 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.sesame.gestionfacture.service.ProduitService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FactureServiceImpl implements FactureService {
+
+    private final Logger logger = LoggerFactory.getLogger(FactureServiceImpl.class);
 
     private List<ProduitDTO> produitDTOS;
 
@@ -407,5 +414,18 @@ public class FactureServiceImpl implements FactureService {
         cell.setHorizontalAlignment (Element.ALIGN_CENTER);
         cell.setBorder(0);
         return cell;
+    }
+
+    @Override
+    public PageRequestData<FactureDTO> getAllFacturesPaginated(PageRequest pageRequest) {
+        Page<Facture> facturePage = factureRepository.findAll(pageRequest);
+        PageRequestData<FactureDTO> customPageResponse = new PageRequestData<>();
+        customPageResponse.setContent(facturePage.map(factureMapper::toDto).getContent());
+        customPageResponse.setTotalPages(facturePage.getTotalPages());
+        customPageResponse.setTotalElements(facturePage.getTotalElements());
+        customPageResponse.setNumber(facturePage.getNumber());
+        customPageResponse.setSize(facturePage.getSize());
+        logger.info("Fetching All factures of Page N° " + pageRequest.getPageNumber());
+        return customPageResponse;
     }
 }

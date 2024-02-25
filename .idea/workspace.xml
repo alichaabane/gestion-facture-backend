@@ -4,20 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="494afcd2-793a-4ff3-a90e-bdc9e21ea365" name="Changes" comment="implement dashboard stats">
+    <list default="true" id="494afcd2-793a-4ff3-a90e-bdc9e21ea365" name="Changes" comment="implement facture paginated list service">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/repository/FournisseurRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/repository/FournisseurRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/dto/FactureDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/dto/FactureDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/FactureResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/FactureResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/FournisseurResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/FournisseurResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/ProduitResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/ProduitResource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/UserResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/UserResource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/FactureService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/FactureService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/FournisseurService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/FournisseurService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/ProduitService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/ProduitService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/FactureServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/FactureServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/FournisseurServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/FournisseurServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/ProduitServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/ProduitServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/UserService.java" afterDir="false" />
     </list>
     <list id="e19e5b8b-ff55-4a6c-af0c-70fb315ca46d" name="dont push" comment="">
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
@@ -44,6 +36,9 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="c5aa19d8-7fdd-4fce-9d2f-23f23c448a21" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -144,7 +139,8 @@
       <workItem from="1708246955450" duration="5100000" />
       <workItem from="1708283976445" duration="8087000" />
       <workItem from="1708358313246" duration="4983000" />
-      <workItem from="1708802403816" duration="2518000" />
+      <workItem from="1708802403816" duration="3076000" />
+      <workItem from="1708858947961" duration="1022000" />
     </task>
     <task id="LOCAL-00001" summary="CRUD Produits et Fournisseurs">
       <option name="closed" value="true" />
@@ -162,7 +158,15 @@
       <option name="project" value="LOCAL" />
       <updated>1707169472321</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="implement dashboard stats">
+      <option name="closed" value="true" />
+      <created>1708809631605</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1708809631605</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -184,6 +188,22 @@
     <MESSAGE value="reconfig database to mysql" />
     <MESSAGE value="list users + delete user services" />
     <MESSAGE value="implement dashboard stats" />
-    <option name="LAST_COMMIT_MESSAGE" value="implement dashboard stats" />
+    <MESSAGE value="implement facture paginated list service" />
+    <option name="LAST_COMMIT_MESSAGE" value="implement facture paginated list service" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/FournisseurService.java</url>
+          <line>18</line>
+          <properties class="com.sesame.gestionfacture.service.FournisseurService" method="getAllFournisseursPaginated">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
