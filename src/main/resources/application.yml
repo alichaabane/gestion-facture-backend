@@ -19,5 +19,21 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
+############## Email Config ##############
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: your_email
+    password: your_password
+    protocol: smtps
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+
 external:
   facturestoragePath: "src/main/resources/factures/"

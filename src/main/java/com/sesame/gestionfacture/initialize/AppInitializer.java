@@ -31,6 +31,7 @@ public class AppInitializer implements CommandLineRunner {
                                     "20208080",
                                     "alichaabane98@gmail.com",
                                     "123456",
+                                    "123456",
                                      String.valueOf(Role.ADMIN),
                                     "29100200",
                                     true,

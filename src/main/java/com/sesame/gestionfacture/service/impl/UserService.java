@@ -56,7 +56,7 @@ public class UserService {
 
         String hashedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(hashedPassword);
-
+        user.setPasswordText(user.getPasswordText());
         return userRepository.save(userMapper.toEntity(user));
     }
 

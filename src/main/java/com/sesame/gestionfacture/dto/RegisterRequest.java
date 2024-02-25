@@ -16,6 +16,7 @@ public class RegisterRequest {
     private String cin;
     private String email;
     private String password;
+    private String passwordText;
     private String role;
     private String telephone;
     private boolean confirmed;

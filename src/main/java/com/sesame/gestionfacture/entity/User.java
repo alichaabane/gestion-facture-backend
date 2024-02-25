@@ -52,6 +52,10 @@ public class User implements UserDetails {
     @Size(min = 4, message = "*Your password must have at least 4 characters")
     private String password;
 
+    @Column
+    @Size(min = 4, message = "*Your password must have at least 4 characters")
+    private String textPassword;
+
     @Column(nullable = false)
     private int age;
 
