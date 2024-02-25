@@ -18,3 +18,5 @@ buildNumber.properties
 
 .idea
 .idea/workspace.xml
+
+src/main/resources/factures/
