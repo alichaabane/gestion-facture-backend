@@ -11,10 +11,10 @@ import java.util.List;
 public interface FactureService {
 
     List<FactureDTO> getAllFactures();
-    void addFacture(FactureDTO factureDTO);
+    byte[] addFacture(FactureDTO factureDTO);
     boolean deleteFactureById(Long id);
     int countFactures();
-    void createPdf(String fileName,List<ProduitDTO> listeProduits,FactureDTO factureDTO);
+    byte[] generatePdf(String fileName, List<ProduitDTO> listeProduits, FactureDTO factureDTO);
     void deletePdfFile(Long factureId);
     PageRequestData<Facture2DTO> getAllFacturesPaginated(PageRequest pageRequest);
 

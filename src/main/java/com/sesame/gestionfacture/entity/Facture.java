@@ -27,6 +27,8 @@ public class Facture {
     @Column(nullable = false)
     private String numTelClient;
 
+    private String adresseClient;
+
     @JsonIgnore
     @OneToMany()
     @JoinColumn(name = "facture_id")

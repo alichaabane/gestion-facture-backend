@@ -23,6 +23,7 @@ public class FactureDTO {
     private String nomClient;
     private String prenomClient;
     private String numTelClient;
+    private String adresseClient;
     private List<Produit> listeProduits;
 
 }

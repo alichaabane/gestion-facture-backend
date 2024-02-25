@@ -22,6 +22,7 @@ public class Facture2DTO {
     private String nomClient;
     private String prenomClient;
     private String numTelClient;
+    private String adresseClient;
     @JsonIgnore
     private List<Produit> listeProduits;
 

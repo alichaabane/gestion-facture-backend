@@ -15,13 +15,12 @@ import com.sesame.gestionfacture.repository.FactureRepository;
 import com.sesame.gestionfacture.repository.ProduitRepository;
 import com.sesame.gestionfacture.service.FactureService;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -47,6 +46,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class FactureServiceImpl implements FactureService {
@@ -83,7 +83,7 @@ public class FactureServiceImpl implements FactureService {
     }
 
     @Override
-    public void addFacture(FactureDTO factureDTO) {
+    public byte[] addFacture(FactureDTO factureDTO) {
         Facture facture = factureMapper.toEntity(factureDTO);
         LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm", Locale.FRENCH);
@@ -96,7 +96,7 @@ public class FactureServiceImpl implements FactureService {
 
         this.produitDTOS = facture.getListeProduits().stream().map(produitMapper::toDto).collect(Collectors.toList());
         List<ProduitDTO> produitForFacture = produitService.getProduitsByFacture(factureSaved.getId());
-        createPdf(factureSaved.getId()+"_"+factureSaved.getNomClient()+" "+factureSaved.getPrenomClient()+".pdf",produitForFacture,factureDTO);
+       return generatePdf(factureSaved.getId()+"_"+factureSaved.getNomClient()+" "+factureSaved.getPrenomClient()+".pdf",produitForFacture,factureDTO);
     }
 
     @Override
@@ -164,11 +164,14 @@ public class FactureServiceImpl implements FactureService {
     }
 
 
-    public void createPdf (String pdfFilename,List<ProduitDTO> listeProduits,FactureDTO factureDTO){
+    public byte[] generatePdf(String fileName, List<ProduitDTO> listeProduits, FactureDTO factureDTO) {
         try {
 
-            OutputStream file = new FileOutputStream(new File(factureDir +pdfFilename));
+            OutputStream file = new FileOutputStream(new File(factureDir + fileName));
             Document document = new Document();
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            PdfWriter.getInstance(document, byteArrayOutputStream);
+
             PdfWriter.getInstance(document, file);
 
             //Inserting Image in PDF
@@ -203,11 +206,11 @@ public class FactureServiceImpl implements FactureService {
             Font font = FontFactory.getFont(FontFactory.TIMES_ROMAN, 13, Font.BOLD);
             fs.addFont(font);
             Phrase bill = fs.process("Facturer à"); // customer information
-            Paragraph name = new Paragraph(factureDTO.getNomClient()+" "+factureDTO.getPrenomClient());
+            Paragraph name = new Paragraph(StringUtils.capitalize(factureDTO.getNomClient())+" "+StringUtils.capitalize(factureDTO.getPrenomClient()));
             name.setIndentationLeft(20);
-            Paragraph contact = new Paragraph(factureDTO.getNumTelClient());
+            Paragraph contact = new Paragraph("+216 "+ factureDTO.getNumTelClient());
             contact.setIndentationLeft(20);
-            Paragraph address = new Paragraph("Bardo, Tunis");
+            Paragraph address = new Paragraph(factureDTO.getAdresseClient());
             address.setIndentationLeft(20);
 
             PdfPTable billTable = new PdfPTable(6); //one page contains 15 records
@@ -380,10 +383,12 @@ public class FactureServiceImpl implements FactureService {
             file.close();
 
             System.out.println("Pdf created successfully..");
+            return byteArrayOutputStream.toByteArray();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return new byte[0];
     }
 
     public static PdfPCell getIRHCell(String text, int alignment) {

@@ -4,16 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="494afcd2-793a-4ff3-a90e-bdc9e21ea365" name="Changes" comment="implement facture paginated list service">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/dto/Facture2DTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/mapper/Facture2Mapper.java" afterDir="false" />
+    <list default="true" id="494afcd2-793a-4ff3-a90e-bdc9e21ea365" name="Changes" comment="fix : service generate pdf">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/dto/Facture2DTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/dto/Facture2DTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/dto/FactureDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/dto/FactureDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/entity/Facture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/entity/Facture.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/FactureResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/FactureResource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/FactureService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/FactureService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/FactureServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/FactureServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/factures/8_Beldi Khalil.pdf" beforeDir="false" />
     </list>
     <list id="e19e5b8b-ff55-4a6c-af0c-70fb315ca46d" name="dont push" comment="">
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
@@ -43,14 +42,6 @@
   </component>
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="c5aa19d8-7fdd-4fce-9d2f-23f23c448a21" />
-  </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/resources/application.yml">
-      <ranges>
-        <range start1="9" end1="10" start2="9" end2="10" changelist="e19e5b8b-ff55-4a6c-af0c-70fb315ca46d" />
-        <range start1="22" end1="23" start2="22" end2="23" changelist="494afcd2-793a-4ff3-a90e-bdc9e21ea365" />
-      </ranges>
-    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -152,7 +143,7 @@
       <workItem from="1708283976445" duration="8087000" />
       <workItem from="1708358313246" duration="4983000" />
       <workItem from="1708802403816" duration="3076000" />
-      <workItem from="1708858947961" duration="5995000" />
+      <workItem from="1708858947961" duration="8912000" />
     </task>
     <task id="LOCAL-00001" summary="CRUD Produits et Fournisseurs">
       <option name="closed" value="true" />
@@ -186,7 +177,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708861629195</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="fix : service generate pdf">
+      <option name="closed" value="true" />
+      <created>1708866663268</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1708866663269</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -209,7 +208,8 @@
     <MESSAGE value="list users + delete user services" />
     <MESSAGE value="implement dashboard stats" />
     <MESSAGE value="implement facture paginated list service" />
-    <option name="LAST_COMMIT_MESSAGE" value="implement facture paginated list service" />
+    <MESSAGE value="fix : service generate pdf" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix : service generate pdf" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

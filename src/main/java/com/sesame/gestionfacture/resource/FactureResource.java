@@ -7,7 +7,9 @@ import com.sesame.gestionfacture.dto.PageRequestData;
 import com.sesame.gestionfacture.service.FactureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,9 +29,14 @@ public class FactureResource {
     }
 
     @PostMapping()
-    public ResponseEntity<Void> addFacture(@RequestBody FactureDTO factureDTO) {
-        factureService.addFacture(factureDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<byte[]> addFacture(@RequestBody FactureDTO factureDTO) {
+        byte[] pdfBytes = factureService.addFacture(factureDTO);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDispositionFormData("attachment", factureDTO.getId() + "facture.pdf");
+
+        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
     }
 
     @DeleteMapping("/{factureId}")
