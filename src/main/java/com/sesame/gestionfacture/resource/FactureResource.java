@@ -1,5 +1,6 @@
 package com.sesame.gestionfacture.resource;
 
+import com.sesame.gestionfacture.dto.Facture2DTO;
 import com.sesame.gestionfacture.dto.FactureDTO;
 import com.sesame.gestionfacture.dto.FournisseurDTO;
 import com.sesame.gestionfacture.dto.PageRequestData;
@@ -50,7 +51,7 @@ public class FactureResource {
             @RequestParam(defaultValue = "10") int size
     ) {
         PageRequest pageRequest = PageRequest.of(page, size);
-        PageRequestData<FactureDTO> factures = factureService.getAllFacturesPaginated(pageRequest);
+        PageRequestData<Facture2DTO> factures = factureService.getAllFacturesPaginated(pageRequest);
         if(factures != null){
             return new ResponseEntity<>(factures, HttpStatus.OK);
         } else {
@@ -58,15 +59,4 @@ public class FactureResource {
         }
     }
 
-
-
-/*
-    @PostMapping("/test")
-    public void generatePdfFileForFacture(){
-        String pdfFilename = "Facture.pdf";
-        factureService.createPdf(pdfFilename);
-    }
-
-
- */
 }

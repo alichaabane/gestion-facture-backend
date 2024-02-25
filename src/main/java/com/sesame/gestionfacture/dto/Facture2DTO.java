@@ -1,35 +1,28 @@
-package com.sesame.gestionfacture.entity;
+package com.sesame.gestionfacture.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import com.sesame.gestionfacture.entity.Produit;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
-@Entity
 @Data
-public class Facture {
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Facture2DTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
     private LocalDateTime createdAt;
-
-    @Column(nullable = false)
     private String nomClient;
-
-    @Column(nullable = false)
     private String prenomClient;
-
-    @Column(nullable = false)
     private String numTelClient;
-
     @JsonIgnore
-    @OneToMany()
-    @JoinColumn(name = "facture_id")
     private List<Produit> listeProduits;
 
 }

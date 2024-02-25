@@ -1,5 +1,6 @@
 package com.sesame.gestionfacture.service;
 
+import com.sesame.gestionfacture.dto.Facture2DTO;
 import com.sesame.gestionfacture.dto.FactureDTO;
 import com.sesame.gestionfacture.dto.PageRequestData;
 import com.sesame.gestionfacture.dto.ProduitDTO;
@@ -14,8 +15,8 @@ public interface FactureService {
     boolean deleteFactureById(Long id);
     int countFactures();
     void createPdf(String fileName,List<ProduitDTO> listeProduits,FactureDTO factureDTO);
-
-    PageRequestData<FactureDTO> getAllFacturesPaginated(PageRequest pageRequest);
+    void deletePdfFile(Long factureId);
+    PageRequestData<Facture2DTO> getAllFacturesPaginated(PageRequest pageRequest);
 
 
 }

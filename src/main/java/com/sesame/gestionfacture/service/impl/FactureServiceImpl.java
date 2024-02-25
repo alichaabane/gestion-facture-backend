@@ -2,21 +2,29 @@ package com.sesame.gestionfacture.service.impl;
 
 import com.itextpdf.text.pdf.FontSelector;
 import com.itextpdf.text.pdf.PdfPCell;
+import com.sesame.gestionfacture.dto.Facture2DTO;
 import com.sesame.gestionfacture.dto.FactureDTO;
 import com.sesame.gestionfacture.dto.PageRequestData;
 import com.sesame.gestionfacture.dto.ProduitDTO;
 import com.sesame.gestionfacture.entity.Facture;
+import com.sesame.gestionfacture.entity.Produit;
+import com.sesame.gestionfacture.mapper.Facture2Mapper;
 import com.sesame.gestionfacture.mapper.FactureMapper;
 import com.sesame.gestionfacture.mapper.ProduitMapper;
 import com.sesame.gestionfacture.repository.FactureRepository;
+import com.sesame.gestionfacture.repository.ProduitRepository;
 import com.sesame.gestionfacture.service.FactureService;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -35,6 +43,7 @@ import com.sesame.gestionfacture.service.ProduitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -48,15 +57,22 @@ public class FactureServiceImpl implements FactureService {
 
     @Autowired
     private FactureRepository factureRepository;
+    @Autowired
+    private ProduitRepository produitRepository;
 
     @Autowired
     private FactureMapper factureMapper;
+    @Autowired
+    private Facture2Mapper facture2Mapper;
 
     @Autowired
     private ProduitMapper produitMapper;
 
     @Autowired
     private ProduitService produitService;
+
+    @Value("${external.facturestoragePath}")
+    private String factureDir;
 
     @Override
     public List<FactureDTO> getAllFactures() {
@@ -69,20 +85,78 @@ public class FactureServiceImpl implements FactureService {
     @Override
     public void addFacture(FactureDTO factureDTO) {
         Facture facture = factureMapper.toEntity(factureDTO);
-        this.produitDTOS = facture.getListeProduits().stream().map(produitMapper::toDto).collect(Collectors.toList());
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm", Locale.FRENCH);
+        String strDate = date.format(formatter);
+
+        LocalDateTime parsedDate = LocalDateTime.parse(strDate, formatter);
+        facture.setCreatedAt(parsedDate);
+
         Facture factureSaved = factureRepository.save(facture);
+
+        this.produitDTOS = facture.getListeProduits().stream().map(produitMapper::toDto).collect(Collectors.toList());
         List<ProduitDTO> produitForFacture = produitService.getProduitsByFacture(factureSaved.getId());
-        createPdf(factureSaved.getNomClient()+" "+factureSaved.getPrenomClient()+".pdf",produitForFacture,factureDTO);
+        createPdf(factureSaved.getId()+"_"+factureSaved.getNomClient()+" "+factureSaved.getPrenomClient()+".pdf",produitForFacture,factureDTO);
     }
 
     @Override
     public boolean deleteFactureById(Long id) {
-        if(factureRepository.existsById(id)){
+        Optional<Facture> optionalFacture = factureRepository.findById(id);
+
+        if (optionalFacture.isPresent()) {
+            Facture facture = optionalFacture.get();
+
+            // Update Produit entities associated with the Facture
+            List<Produit> produits = facture.getListeProduits();
+            for (Produit produit : produits) {
+                produit.setFacture(null);
+                produitRepository.save(produit);
+            }
+
+            // Delete the Facture
             factureRepository.deleteById(id);
+            deletePdfFile(id);
+
             return true;
         }
+
         return false;
     }
+
+
+     @Override
+     public void deletePdfFile(Long factureId) {
+         // Define the directory where PDF files are stored
+         String pdfDirectory = factureDir; // Update with your actual directory
+
+         try {
+             // Create a File object representing the PDF directory
+             File directory = new File(factureDir);
+
+             // Check if the directory exists
+             if (directory.exists() && directory.isDirectory()) {
+                 // List all files in the directory
+                 File[] files = directory.listFiles();
+
+                 // Loop through files and delete the one starting with factureId
+                 assert files != null;
+                 for (File file : files) {
+                     if (file.getName().startsWith(factureId.toString())) {
+                         // Attempt to delete the file
+                         if (file.delete()) {
+                             System.out.println("PDF file deleted successfully: " + file.getName());
+                         } else {
+                             System.out.println("Failed to delete PDF file: " + file.getName());
+                         }
+                     }
+                 }
+             } else {
+                 System.out.println("PDF directory not found: " + pdfDirectory);
+             }
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+     }
 
     @Override
     public int countFactures() {
@@ -93,7 +167,7 @@ public class FactureServiceImpl implements FactureService {
     public void createPdf (String pdfFilename,List<ProduitDTO> listeProduits,FactureDTO factureDTO){
         try {
 
-            OutputStream file = new FileOutputStream(new File(pdfFilename));
+            OutputStream file = new FileOutputStream(new File(factureDir +pdfFilename));
             Document document = new Document();
             PdfWriter.getInstance(document, file);
 
@@ -102,14 +176,15 @@ public class FactureServiceImpl implements FactureService {
             image.scaleAbsolute(540f, 72f);//image width,height
 
             //Date de la facture
-            Date date = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd MMMM yyyy");
-            String strDate = formatter.format(date);
+            LocalDateTime date = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy HH:mm");
+            String strDate = date.format(formatter);
+
 
             PdfPTable irdTable = new PdfPTable(2);
             irdTable.addCell(getIRDCell("N° Facture"));
             irdTable.addCell(getIRDCell("Date facture"));
-            irdTable.addCell(getIRDCell("XE1234")); // pass invoice number
+            irdTable.addCell(getIRDCell("XXXX")); // pass invoice number
             irdTable.addCell(getIRDCell(strDate)); // pass invoice date
 
             PdfPTable irhTable = new PdfPTable(3);
@@ -311,12 +386,6 @@ public class FactureServiceImpl implements FactureService {
         }
     }
 
-
-
-    public static void setHeader() {
-
-    }
-
     public static PdfPCell getIRHCell(String text, int alignment) {
         FontSelector fs = new FontSelector();
         Font font = FontFactory.getFont(FontFactory.HELVETICA, 16);
@@ -417,10 +486,10 @@ public class FactureServiceImpl implements FactureService {
     }
 
     @Override
-    public PageRequestData<FactureDTO> getAllFacturesPaginated(PageRequest pageRequest) {
+    public PageRequestData<Facture2DTO> getAllFacturesPaginated(PageRequest pageRequest) {
         Page<Facture> facturePage = factureRepository.findAll(pageRequest);
-        PageRequestData<FactureDTO> customPageResponse = new PageRequestData<>();
-        customPageResponse.setContent(facturePage.map(factureMapper::toDto).getContent());
+        PageRequestData<Facture2DTO> customPageResponse = new PageRequestData<>();
+        customPageResponse.setContent(facturePage.map(facture2Mapper::toDto).getContent());
         customPageResponse.setTotalPages(facturePage.getTotalPages());
         customPageResponse.setTotalElements(facturePage.getTotalElements());
         customPageResponse.setNumber(facturePage.getNumber());

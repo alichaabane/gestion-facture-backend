@@ -20,4 +20,4 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
 external:
-  facturestoragePath: "/factures/"
+  facturestoragePath: "src/main/resources/factures/"
