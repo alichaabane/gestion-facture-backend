@@ -1,0 +1,419 @@
+{
+	"info": {
+		"_postman_id": "e76ba789-91fa-4687-b990-46a34f1bec0f",
+		"name": "Gestion Facture - PDS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10364199"
+	},
+	"item": [
+		{
+			"name": "get All Fournisseurs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/fournisseurs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"fournisseurs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get Produits By Fournisseur",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/produits/fournisseur/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"produits",
+						"fournisseur",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get All Produits",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/produits",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"produits"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n     \"cin\": \"12342000\",\r\n     \"password\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Paginated List",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n     \"page\": \"0\",\r\n     \"size\": \"10\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/paginated",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"paginated"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cin\": \"12342000\",\r\n  \"nom\": \"Ben Saleh\",\r\n  \"prenom\": \"Ali\",\r\n  \"email\": \"alibensaleh@gmail.com\",\r\n  \"password\": \"123456\",\r\n  \"age\": 25,\r\n  \"telephone\": \"29623103\",\r\n  \"role\": \"ADMIN\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Facture",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nomClient\": \"Beldi\",\r\n  \"prenomClient\": \"Khalil\",\r\n  \"numTelClient\": \"23664533\",\r\n  \"adresseClient\": \"Gafsa\",\r\n  \"listeProduits\": [\r\n    {\r\n      \"id\": 1\r\n    },\r\n    {\r\n      \"id\": 2\r\n    }\r\n  ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/facture",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"facture"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Facture",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"createdAt\": \"2024-02-19T00:00:00Z\",\r\n  \"nomClient\": \"Beldi\",\r\n  \"prenomClient\": \"Khalil\",\r\n  \"numTelClient\": \"23664533\",\r\n  \"listeProduits\": [\r\n    {\r\n      \"id\": 1\r\n    },\r\n    {\r\n      \"id\": 2\r\n    }\r\n  ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/facture/8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"facture",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cin\": \"12342000\",\r\n  \"nom\": \"Ben saleh\",\r\n  \"prenom\": \"Ali\",\r\n  \"email\": \"ali@gmail.com\",\r\n  \"password\": \"123456\",\r\n  \"age\": 25,\r\n  \"telephone\": \"29623103\",\r\n  \"role\": \"UTILISATEUR\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "count-user-by-month",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cin\": \"33334444\",\r\n  \"nom\": \"Ben Salah\",\r\n  \"prenom\": \"Fatima\",\r\n  \"email\": \"fatimabensalah@gmail.com\",\r\n  \"password\": \"654321\",\r\n  \"age\": 32,\r\n  \"telephone\": \"29567890\",\r\n  \"role\": \"UTILISATEUR\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/count-by-month",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"count-by-month"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "count total users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cin\": \"33334444\",\r\n  \"nom\": \"Ben Salah\",\r\n  \"prenom\": \"Fatima\",\r\n  \"email\": \"fatimabensalah@gmail.com\",\r\n  \"password\": \"654321\",\r\n  \"age\": 32,\r\n  \"telephone\": \"29567890\",\r\n  \"role\": \"UTILISATEUR\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/user/count",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user",
+						"count"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "count total factures",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cin\": \"33334444\",\r\n  \"nom\": \"Ben Salah\",\r\n  \"prenom\": \"Fatima\",\r\n  \"email\": \"fatimabensalah@gmail.com\",\r\n  \"password\": \"654321\",\r\n  \"age\": 32,\r\n  \"telephone\": \"29567890\",\r\n  \"role\": \"UTILISATEUR\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/facture/count",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"facture",
+						"count"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "count total produits",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cin\": \"33334444\",\r\n  \"nom\": \"Ben Salah\",\r\n  \"prenom\": \"Fatima\",\r\n  \"email\": \"fatimabensalah@gmail.com\",\r\n  \"password\": \"654321\",\r\n  \"age\": 32,\r\n  \"telephone\": \"29567890\",\r\n  \"role\": \"UTILISATEUR\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/produits/count",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"produits",
+						"count"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "count total fournisseurs",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cin\": \"33334444\",\r\n  \"nom\": \"Ben Salah\",\r\n  \"prenom\": \"Fatima\",\r\n  \"email\": \"fatimabensalah@gmail.com\",\r\n  \"password\": \"654321\",\r\n  \"age\": 32,\r\n  \"telephone\": \"29567890\",\r\n  \"role\": \"UTILISATEUR\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/fournisseurs/count",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"fournisseurs",
+						"count"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
