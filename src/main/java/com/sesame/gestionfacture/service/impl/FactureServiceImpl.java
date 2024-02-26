@@ -175,7 +175,7 @@ public class FactureServiceImpl implements FactureService {
             PdfWriter.getInstance(document, file);
 
             //Inserting Image in PDF
-            Image image = Image.getInstance ("src/main/resources/logo.jpg");//Header Image
+            Image image = Image.getInstance ("src/main/resources/static/logo.jpg");//Header Image
             image.scaleAbsolute(540f, 72f);//image width,height
 
             //Date de la facture
