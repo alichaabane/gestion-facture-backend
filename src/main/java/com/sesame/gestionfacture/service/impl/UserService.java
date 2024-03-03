@@ -1,38 +1,51 @@
 package com.sesame.gestionfacture.service.impl;
 
-import com.sesame.gestionfacture.authentication.AuthenticationService;
+import com.sesame.gestionfacture.config.ContactMail;
 import com.sesame.gestionfacture.dto.PageRequestData;
 import com.sesame.gestionfacture.dto.RegisterRequest;
 import com.sesame.gestionfacture.entity.Role;
 import com.sesame.gestionfacture.entity.User;
 import com.sesame.gestionfacture.mapper.UserMapper;
 import com.sesame.gestionfacture.repository.UserRepository;
+import com.sesame.gestionfacture.service.MailingService;
+import freemarker.template.TemplateException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
-import java.util.Arrays;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class UserService {
 
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
-    private final Logger logger = LoggerFactory.getLogger(UserService.class);
+    @Value("${spring.mail.username}")
+    public String sender;
+
+    @Autowired
+    private freemarker.template.Configuration freemarkerConfig;
+
+    @Autowired
+    private MailingService mailingService;
+
 
     public User saveUser(RegisterRequest user) {
 
@@ -151,6 +164,8 @@ public class UserService {
 
     }
 
+
+
     public void updateResetPasswordToken(String token,String email) throws UsernameNotFoundException {
         var user=userRepository.findByEmail(email);
         if(user!=null) {
@@ -180,4 +195,34 @@ public class UserService {
             System.out.println(ex.getMessage());
         }
     }
+    public void sentResetPasswordEmail(User user, String resetPasswordLink) throws IOException, TemplateException {
+        ContactMail contactMail = new ContactMail();
+        Map<String, Object> data = new HashMap<>();
+        data.put("Username", user.getNom() + " " +  user.getPrenom());
+        data.put("resetPasswordLink", resetPasswordLink);
+        contactMail.setSubject("Mot de passe oublié");
+        contactMail.setTo(user.getEmail().trim());
+        contactMail.setFrom(sender);
+
+        contactMail.setContent(FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerConfig.getTemplate("reset-password.ftl"), data));
+        mailingService.sendMail(contactMail);
+
+    }
+
+    public void sendRecoverPasswordEmail(String email, String resetPasswordLink) throws IOException, TemplateException {
+        User user = userRepository.findByEmail(email);
+        System.out.println(" USER = " + user);
+        Map<String, HttpStatus> result = new HashMap<>();
+        if (user == null) {
+            result.put("Email not found", HttpStatus.NOT_FOUND);
+            return;
+        }
+        result = new HashMap<>();
+        this.sentResetPasswordEmail(user, resetPasswordLink);
+        result.put("Email sended successfully", HttpStatus.OK);
+    }
+
+
+
+
 }

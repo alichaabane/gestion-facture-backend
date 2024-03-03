@@ -211,8 +211,7 @@
                                     <div
                                             style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:20px;line-height:1;text-align:left;color:#555555;"
                                     >
-                                        Votre mot de passe est :
-                                        <b>${Password}</b>
+                                        <p><b><a href="${resetPasswordLink}">changer mon mot de passe</a></b></p>
                                     </div>
                                 </td>
                             </tr>
