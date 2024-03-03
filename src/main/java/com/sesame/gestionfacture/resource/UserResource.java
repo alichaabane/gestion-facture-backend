@@ -136,15 +136,13 @@ public class UserResource {
 
         User user = this.userRepository.findByEmail(email);
 
-        if(user == null)
-        {
+        if(user == null) {
             JSONObject entity = new JSONObject();
             entity.append("message", "User not found");
             return new ResponseEntity<>(entity.toString(), HttpStatus.NOT_FOUND);
         }
 
         // generate resetToken and update user info and prepare url for reset email
-
         RandomString randomString=new RandomString(45);
         String generatedToken=randomString.nextString();
         userService.updateResetPasswordToken(generatedToken,email);
@@ -155,7 +153,7 @@ public class UserResource {
 
         //send reset email
         try {
-            userService.sendRecoverPasswordEmail(email,resetPasswordLink);
+            userService.sendRecoverPasswordEmail(user,resetPasswordLink);
         } catch (TemplateException | IOException e) {
             throw new RuntimeException(e);
         }

@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="494afcd2-793a-4ff3-a90e-bdc9e21ea365" name="Changes" comment="implement reset password logic v2">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/UserResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/UserResource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/UserService.java" afterDir="false" />
     </list>
     <list id="e19e5b8b-ff55-4a6c-af0c-70fb315ca46d" name="dont push" comment="" />
@@ -144,7 +146,7 @@
       <workItem from="1708858947961" duration="9602000" />
       <workItem from="1708892138815" duration="3792000" />
       <workItem from="1708951371393" duration="1623000" />
-      <workItem from="1709487642862" duration="5755000" />
+      <workItem from="1709487642862" duration="6917000" />
     </task>
     <task id="LOCAL-00001" summary="CRUD Produits et Fournisseurs">
       <option name="closed" value="true" />
@@ -226,7 +228,15 @@
       <option name="project" value="LOCAL" />
       <updated>1709493971644</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="implement reset password logic v2">
+      <option name="closed" value="true" />
+      <created>1709494042041</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1709494042041</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -256,20 +266,5 @@
     <MESSAGE value="fix : pdf generation" />
     <MESSAGE value="implement reset password logic v2" />
     <option name="LAST_COMMIT_MESSAGE" value="implement reset password logic v2" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/FournisseurService.java</url>
-          <line>18</line>
-          <properties class="com.sesame.gestionfacture.service.FournisseurService" method="getAllFournisseursPaginated">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -209,11 +209,8 @@ public class UserService {
 
     }
 
-    public void sendRecoverPasswordEmail(String email, String resetPasswordLink) throws IOException, TemplateException {
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
-            return;
-        }
+    public void sendRecoverPasswordEmail(User user, String resetPasswordLink) throws IOException, TemplateException {
+
         this.sentResetPasswordEmail(user, resetPasswordLink);
     }
 
