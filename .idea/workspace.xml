@@ -4,20 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="494afcd2-793a-4ff3-a90e-bdc9e21ea365" name="Changes" comment="fix : pdf generation">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/authentication/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/authentication/AuthenticationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/authentication/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/authentication/AuthenticationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/dto/ForgotPasswordRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/dto/ResetPasswordRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/UserResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/resource/UserResource.java" afterDir="false" />
+    <list default="true" id="494afcd2-793a-4ff3-a90e-bdc9e21ea365" name="Changes" comment="implement reset password logic v2">
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sesame/gestionfacture/service/impl/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/reset-password.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/reset-password.ftl" afterDir="false" />
     </list>
-    <list id="e19e5b8b-ff55-4a6c-af0c-70fb315ca46d" name="dont push" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
-    </list>
+    <list id="e19e5b8b-ff55-4a6c-af0c-70fb315ca46d" name="dont push" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,15 +33,6 @@
   </component>
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="c5aa19d8-7fdd-4fce-9d2f-23f23c448a21" />
-  </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/resources/application.yml">
-      <ranges>
-        <range start1="9" end1="10" start2="9" end2="10" changelist="e19e5b8b-ff55-4a6c-af0c-70fb315ca46d" />
-        <range start1="25" end1="27" start2="25" end2="27" changelist="e19e5b8b-ff55-4a6c-af0c-70fb315ca46d" />
-        <range start1="40" end1="40" start2="40" end2="43" changelist="494afcd2-793a-4ff3-a90e-bdc9e21ea365" />
-      </ranges>
-    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -163,7 +144,7 @@
       <workItem from="1708858947961" duration="9602000" />
       <workItem from="1708892138815" duration="3792000" />
       <workItem from="1708951371393" duration="1623000" />
-      <workItem from="1709487642862" duration="5551000" />
+      <workItem from="1709487642862" duration="5755000" />
     </task>
     <task id="LOCAL-00001" summary="CRUD Produits et Fournisseurs">
       <option name="closed" value="true" />
@@ -237,7 +218,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708951581540</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="implement reset password logic v2">
+      <option name="closed" value="true" />
+      <created>1709493971643</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1709493971644</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -265,7 +254,8 @@
     <MESSAGE value="add : postman json collection" />
     <MESSAGE value="implement forget password (simple method) + mailing service" />
     <MESSAGE value="fix : pdf generation" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix : pdf generation" />
+    <MESSAGE value="implement reset password logic v2" />
+    <option name="LAST_COMMIT_MESSAGE" value="implement reset password logic v2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

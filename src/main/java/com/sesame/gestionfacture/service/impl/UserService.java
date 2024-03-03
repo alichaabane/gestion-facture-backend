@@ -211,15 +211,10 @@ public class UserService {
 
     public void sendRecoverPasswordEmail(String email, String resetPasswordLink) throws IOException, TemplateException {
         User user = userRepository.findByEmail(email);
-        System.out.println(" USER = " + user);
-        Map<String, HttpStatus> result = new HashMap<>();
         if (user == null) {
-            result.put("Email not found", HttpStatus.NOT_FOUND);
             return;
         }
-        result = new HashMap<>();
         this.sentResetPasswordEmail(user, resetPasswordLink);
-        result.put("Email sended successfully", HttpStatus.OK);
     }
 
 
